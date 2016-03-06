@@ -29,9 +29,10 @@ namespace wish {
 class Shell {
 public:
     int run();
+    static Shell& instance();
 
 private:
-
+    Shell() = default;
 };
 
 } /* wish */ 

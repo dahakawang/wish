@@ -26,29 +26,39 @@
 #include <string>
 
 #include "shell.h"
+#include "shell_argument.h"
 #include "command.h"
 
 
 namespace wish {
 
+using std::string;
+
 int Shell::run() {
     using std::cout;
     using std::cin;
-    using std::string;
 
     while (cin) {
         string cmd;
         cout << "wish-1.0$ ";
         getline(cin, cmd);
+
+        ShellArgument args(cmd);
+        Command::execute(args);
     }
 
     return 0;
+}
+
+/* static */
+Shell& Shell::instance() {
+    static Shell _instance;
+    return _instance;
 }
 
 } /* wish */
 
 
 int main(int argc, char *argv[]) {
-    wish::Shell shell;
-    return shell.run();
+    return wish::Shell::instance().run();
 }
