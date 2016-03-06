@@ -1,0 +1,7 @@
+.DS_Store
+*.o
+tags
+wish
+*.swp
+.syntastic_cpp_config
+*.dSYM
