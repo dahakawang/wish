@@ -30,9 +30,11 @@ class Shell {
 public:
     int run();
     static Shell& instance();
+    void exit() { _exit = true; }
 
 private:
     Shell() = default;
+    bool _exit{false};
 };
 
 } /* wish */ 

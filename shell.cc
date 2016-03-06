@@ -38,10 +38,11 @@ int Shell::run() {
     using std::cout;
     using std::cin;
 
-    while (cin) {
+    while (cin && !_exit) {
         string cmd;
         cout << "wish-1.0$ ";
         getline(cin, cmd);
+        if (cmd.empty()) continue;
 
         ShellArgument args(cmd);
         Command::execute(args);
