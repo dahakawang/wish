@@ -1,7 +1,37 @@
 .DS_Store
-*.o
 tags
 wish
 *.swp
 .syntastic_cpp_config
 *.dSYM
+
+=======
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+>>>>>>> 3bcdbd5c88e14e9b58f63ae8ce234eefc3814489
