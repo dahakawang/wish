@@ -23,13 +23,26 @@
  */
 
 #include <algorithm>
+#include <string>
+#include <sstream>
 
 #include "shell_argument.h"
 
 namespace wish {
 
+using std::string;
+using std::stringstream;
+
 ShellArgument::ShellArgument(int argc, char* argv[]) {
     std::copy(argv, argv + argc, back_inserter(_args));
 }
 
+ShellArgument::ShellArgument(const string& arg_str) {
+    stringstream stream(arg_str);
+    string arg_elem;
+
+    while(stream >> arg_elem) {
+        _args.push_back(arg_elem);
+    }
+}
 } /* wish */ 

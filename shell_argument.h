@@ -22,6 +22,8 @@
  *    SOFTWARE.
  */
 
+#pragma once
+
 #include <string>
 #include <vector>
 
@@ -29,8 +31,9 @@ namespace wish {
 
 class ShellArgument {
 public:
-    ShellArgument (int argc, char* argv[]);
-    ShellArgument (std::vector<std::string>& args) : _args(args) {}
+    ShellArgument(int argc, char* argv[]);
+    ShellArgument(const std::string& arg_str);
+    ShellArgument (const std::vector<std::string>& args) : _args(args) {}
     std::string cmd() const { return (_args.empty())? "" : _args.front(); }
 
 private:
