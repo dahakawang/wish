@@ -25,6 +25,7 @@
 #include <string>
 #include <cassert>
 #include <iostream>
+#include <unordered_map>
 
 #include "command.h"
 
@@ -32,6 +33,7 @@ namespace wish {
 
 using std::string;
 using std::vector;
+using std::unordered_map;
 
 /* static */ 
 int Command::execute(const ShellArgument& args) {
@@ -47,13 +49,19 @@ Command* Command::getCommand(const ShellArgument& args) {
     return ExternalCommand::getCommand(args);
 }
 
+
+
 /* static */
 Command* InternalCommand::getCommand(const ShellArgument& args) {
     return _internal_cmds[args.cmd()];
 }
 
+unordered_map<string, InternalCommand*> InternalCommand::_internal_cmds;
+
+
+
 /*static*/ 
-Command* getCommand(const ShellArgument& args) {
+Command* ExternalCommand::getCommand(const ShellArgument& args) {
     static ExternalCommand instance;
     return &instance;
 }
