@@ -42,6 +42,8 @@ private:
 };
 
 
+
+
 class InternalCommand : public Command {
 public:
     static bool is_internal(const std::string& cmd) { return _internal_cmds.count(cmd) != 0;  }
@@ -50,6 +52,9 @@ public:
 private:
     static std::unordered_map<std::string, InternalCommand*> _internal_cmds;
 };
+
+
+
 
 class ExternalCommand : public Command {
 public:
