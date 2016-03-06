@@ -43,16 +43,15 @@ private:
 
 
 
-
 class InternalCommand : public Command {
 public:
     static bool is_internal(const std::string& cmd) { return _internal_cmds.count(cmd) != 0;  }
     static Command* getCommand(const ShellArgument& args);
+    static void registerBuiltin(const std::string& cmd, InternalCommand* builtin);
 
 private:
     static std::unordered_map<std::string, InternalCommand*> _internal_cmds;
 };
-
 
 
 
@@ -62,4 +61,24 @@ public:
     static Command* getCommand(const ShellArgument& args);
 };
 
+
+
+template <typename T>
+class CommandRegister {
+public:
+    CommandRegister (const std::string& cmd) {
+        InternalCommand::registerBuiltin(cmd,new T());
+    }
+};
+
+#define DECLARE_COMMAND(NAME, CLASS)    \
+    CommandRegister<CLASS> __global_builtin_##CLASS(NAME)
+
+
+
+class ExitCommand : public InternalCommand {
+public:
+    int exec(const ShellArgument& args) override;
+
+};
 } /* wish */ 

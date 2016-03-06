@@ -28,6 +28,7 @@
 #include <unordered_map>
 
 #include "command.h"
+#include "shell.h"
 
 namespace wish {
 
@@ -56,6 +57,13 @@ Command* InternalCommand::getCommand(const ShellArgument& args) {
     return _internal_cmds[args.cmd()];
 }
 
+/* static */
+void InternalCommand::registerBuiltin(const string& cmd, InternalCommand* builtin) {
+    assert(_internal_cmds.count(cmd) == 0);
+
+    _internal_cmds[cmd] = builtin;
+}
+
 unordered_map<string, InternalCommand*> InternalCommand::_internal_cmds;
 
 
@@ -70,4 +78,14 @@ int ExternalCommand::exec(const ShellArgument& args) {
     std::cout << "invoked executable " << args.cmd() << std::endl;
     return 0;
 }
+
+
+
+
+int ExitCommand::exec(const ShellArgument& args) {
+    Shell::instance().exit();
+    return 0;
+}
+
+DECLARE_COMMAND("exit", ExitCommand);
 } /* wish */ 
