@@ -3,11 +3,11 @@ OBJ=$(SRC:%.cc=%.o)
 
 CPPFLAGS	=	-std=c++0x -g
 
-all: wsh
-	./wsh
+all: wish
+	./wish
 
-wsh: $(OBJ)
-	$(CXX) $< -o wsh
+wish: $(OBJ)
+	$(CXX) -o wish $(OBJ)
 
 $(OBJ): %.o : %.cc
 	$(CXX) -c $(CPPFLAGS) $< -o $@
