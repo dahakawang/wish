@@ -42,7 +42,7 @@ public:
 
 class Environment {
 public:
-    Environment& instance() { return _instance; }
+    static Environment& instance() { return _instance; }
     void set(const std::string& name, const value_t& value, bool exported = false);
     void erase(const std::string& name);
     value_t get(const std::string& name) const;
