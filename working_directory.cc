@@ -35,4 +35,15 @@ int PWDCommand::exec(const ShellArgument& args) {
 }
 DECLARE_COMMAND("pwd", PWDCommand);
 
+
+
+int CDCommand::exec(const ShellArgument& args) {
+    for (size_t pos = 0; pos < args.size(); ++pos) {
+        std::cout << args[pos] << std::endl;
+    }
+    
+    return 0;
+}
+DECLARE_COMMAND("cd", CDCommand);
+
 } /* wish */ 

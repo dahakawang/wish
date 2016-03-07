@@ -32,5 +32,12 @@ class PWDCommand : public InternalCommand {
 public:
     int exec(const ShellArgument& args) override;
 };
+
+class CDCommand : public InternalCommand {
+public:
+    int exec(const ShellArgument& args) override;
     
+private:
+};
+
 } /* wish  */ 
