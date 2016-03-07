@@ -45,12 +45,12 @@ private:
 
 class InternalCommand : public Command {
 public:
-    static bool is_internal(const std::string& cmd) { return _internal_cmds.count(cmd) != 0;  }
+    static bool is_internal(const std::string& cmd) { return internal_cmds().count(cmd) != 0;  }
     static Command* getCommand(const ShellArgument& args);
     static void registerBuiltin(const std::string& cmd, InternalCommand* builtin);
-
+ 
 private:
-    static std::unordered_map<std::string, InternalCommand*> _internal_cmds;
+    static std::unordered_map<std::string, InternalCommand*>& internal_cmds();
 };
 
 

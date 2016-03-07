@@ -54,17 +54,23 @@ Command* Command::getCommand(const ShellArgument& args) {
 
 /* static */
 Command* InternalCommand::getCommand(const ShellArgument& args) {
-    return _internal_cmds[args.cmd()];
+    return internal_cmds()[args.cmd()];
 }
 
 /* static */
 void InternalCommand::registerBuiltin(const string& cmd, InternalCommand* builtin) {
-    assert(_internal_cmds.count(cmd) == 0);
+    assert(internal_cmds().count(cmd) == 0);
 
-    _internal_cmds[cmd] = builtin;
+    internal_cmds()[cmd] = builtin;
 }
 
-unordered_map<string, InternalCommand*> InternalCommand::_internal_cmds;
+
+/* static */
+unordered_map<string, InternalCommand*>& InternalCommand::internal_cmds() {
+    static std::unordered_map<std::string, InternalCommand*> _internal_cmds;
+
+    return _internal_cmds;
+}
 
 
 
