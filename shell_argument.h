@@ -35,6 +35,9 @@ public:
     ShellArgument(const std::string& arg_str);
     ShellArgument (const std::vector<std::string>& args) : _args(args) {}
     std::string cmd() const { return (_args.empty())? "" : _args.front(); }
+    const std::string& operator[](size_t pos) const { return _args[pos]; }
+    const std::string& at(size_t pos) const { return _args.at(pos); }
+    size_t size() const { return _args.size();  }
 
 private:
     std::vector<std::string> _args;
