@@ -27,7 +27,6 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <cassert>
 
 namespace wish {
 
@@ -60,7 +59,14 @@ void Path::append(std::vector<std::string>& path, const std::string& relative) {
     assert(!is_absolute(relative));
 
     auto elements = split(relative);
-    std::copy(elements.begin(), elements.end(), back_inserter(path));
+
+    for (string& elem : elements) {
+        if (elem == "..") {
+            if (!path.empty()) path.pop_back();
+        } else if (elem != ".") {
+            path.push_back(elem);
+        }
+    }
 }
 
 

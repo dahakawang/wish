@@ -31,8 +31,15 @@
 namespace wish {
 
 class PathException : public std::runtime_error {
-
+public:
+    explicit PathException(const std::string& what) : std::runtime_error(what) {}
 };
+
+inline void assert(bool predicate, const char *msg = "") {
+    if (!predicate) {
+        throw PathException(std::string(msg));
+    }
+}
 
 class Path {
 public:
