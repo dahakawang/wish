@@ -38,6 +38,7 @@ public:
     int exec(const ShellArgument& args) override;
     
 private:
+    std::string trim(const std::string& str);
 };
 
 } /* wish  */ 

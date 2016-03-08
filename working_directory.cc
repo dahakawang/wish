@@ -24,10 +24,15 @@
 
 #include "working_directory.h"
 #include "environment.h"
+#include "path.h"
 
+#include <sys/stat.h>
 #include <iostream>
+#include <string>
 
 namespace wish {
+
+using std::string;
 
 int PWDCommand::exec(const ShellArgument& args) {
     std::cout << Environment::instance().get("PWD") << std::endl;
@@ -36,13 +41,46 @@ int PWDCommand::exec(const ShellArgument& args) {
 DECLARE_COMMAND("pwd", PWDCommand);
 
 
+std::string CDCommand::trim(const std::string& str) {
+    size_t first = 0, last = str.size() - 1;
+    for(; first < str.size() && isspace(str[first]); ++first);
+    for(; last >= first && isspace(str[last]); --last);
+
+    return str.substr(first, last + 1 - first);
+}
 
 int CDCommand::exec(const ShellArgument& args) {
-    for (size_t pos = 0; pos < args.size(); ++pos) {
-        std::cout << args[pos] << std::endl;
+    string target;
+    if (args.size() > 2) std::cerr << "too many arguments" << std::endl;
+    if (args.size() == 2) target = trim(args[1]);
+    else target = Environment::instance().get("HOME");
+    if (target == "~") target = Environment::instance().get("HOME");
+
+
+    try {
+        string cwd = Environment::instance().get("PWD");
+        string dir_name = Path(cwd, target).str();
+
+        struct stat status;
+        int code = stat(dir_name.c_str(), &status);
+        if (code < 0) {
+            perror(nullptr);
+            return -1;
+        }
+
+        if (!S_ISDIR(status.st_mode)) {
+            std::cerr << "not a directory" << std::endl;
+            return -1;
+        }
+
+
+        Environment::instance().set("PWD", dir_name);
+        return 0;
+    } catch (PathException e) {
+        std::cerr << "invalid path specified" << std::endl;
     }
-    
-    return 0;
+
+    return -1;
 }
 DECLARE_COMMAND("cd", CDCommand);
 
