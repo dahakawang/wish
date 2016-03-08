@@ -41,4 +41,9 @@ private:
     std::string trim(const std::string& str);
 };
 
+
+class LSCommand : public InternalCommand {
+public:
+    int exec(const ShellArgument& args) override;
+};
 } /* wish  */ 

@@ -27,8 +27,10 @@
 #include "path.h"
 
 #include <sys/stat.h>
+#include <dirent.h>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 namespace wish {
 
@@ -83,5 +85,35 @@ int CDCommand::exec(const ShellArgument& args) {
     return -1;
 }
 DECLARE_COMMAND("cd", CDCommand);
+
+
+int LSCommand::exec(const ShellArgument& args) {
+    if (args.size() > 1) {
+        std::cerr << "too many arguments" << std::endl;
+    }
+
+    string cwd = Environment::instance().get("PWD");
+
+    DIR* dir = opendir(cwd.c_str());
+    if (dir == nullptr) {
+        perror(nullptr);
+        return -1;
+    }
+
+    dirent* entry = nullptr;
+    while((entry = readdir(dir))) {
+        if (strcmp(entry->d_name, ".") == 0 ||
+                strcmp(entry->d_name, "..") == 0) continue;
+        std::cout << entry->d_name << std::endl;
+    }
+
+    if (closedir(dir) < 0) {
+        perror(nullptr);
+        return -1;
+    }
+
+    return 0;
+}
+DECLARE_COMMAND("ls", LSCommand);
 
 } /* wish */ 
