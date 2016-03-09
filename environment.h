@@ -35,8 +35,8 @@ typedef std::string value_t;
 
 class EnvObserver {
 public:
-    virtual void on_delete(const std::string& name, const value_t& value);
-    virtual void on_assign(const std::string& name, const value_t& old_value, const value_t& new_value);
+    virtual void on_delete(const std::string& name, const value_t& value) = 0;
+    virtual void on_assign(const std::string& name, const value_t& old_value, const value_t& new_value) = 0;
 };
 
 
@@ -49,7 +49,7 @@ public:
     bool contain(const std::string& name);
     std::vector<std::string> list_all();
     //this transfer ownership of the observer object
-    void register_observer(std::unique_ptr<EnvObserver>& observer);
+    void register_observer(std::unique_ptr<EnvObserver> observer);
 
 private:
     Environment();

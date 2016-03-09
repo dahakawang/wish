@@ -114,7 +114,7 @@ std::vector<std::string> Environment::list_all() {
 }
 
 
-void Environment::register_observer(std::unique_ptr<EnvObserver>& observer) {
+void Environment::register_observer(std::unique_ptr<EnvObserver> observer) {
     assert(observer != nullptr);
 
     _observers.push_back(std::move(observer));
