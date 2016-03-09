@@ -32,6 +32,7 @@ namespace wish {
 
 using std::string;
 using std::stringstream;
+using std::vector;
 
 ShellArgument::ShellArgument(int argc, char* argv[]) {
     std::copy(argv, argv + argc, back_inserter(_args));
@@ -44,5 +45,16 @@ ShellArgument::ShellArgument(const string& arg_str) {
     while(stream >> arg_elem) {
         _args.push_back(arg_elem);
     }
+}
+
+vector<const char*> ShellArgument::make_execve() const {
+    vector<const char*> args;
+
+    for (auto& str : _args) {
+        args.push_back(str.c_str());
+    }
+    args.push_back(nullptr);
+
+    return args;
 }
 } /* wish */ 
