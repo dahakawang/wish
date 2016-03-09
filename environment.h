@@ -48,6 +48,7 @@ public:
     value_t get(const std::string& name) const;
     bool contain(const std::string& name);
     std::vector<std::string> list_all();
+    std::vector<const char*> make_envp(std::vector<std::string>& holder) const;
     //this transfer ownership of the observer object
     void register_observer(std::unique_ptr<EnvObserver> observer);
 

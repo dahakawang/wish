@@ -113,6 +113,22 @@ std::vector<std::string> Environment::list_all() {
     return values;
 }
 
+vector<const char*> Environment::make_envp(vector<string>& holder) const {
+    vector<const char*> envp;
+
+    holder.clear();
+    for (auto& kv : _global_envs) {
+        holder.push_back(kv.first + "=" + kv.second);
+    }
+
+    for (string& str : holder) {
+        envp.push_back(str.c_str());
+    }
+    envp.push_back(nullptr);
+
+    return envp;
+}
+
 
 void Environment::register_observer(std::unique_ptr<EnvObserver> observer) {
     assert(observer != nullptr);
