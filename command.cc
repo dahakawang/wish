@@ -29,6 +29,7 @@
 
 #include "command.h"
 #include "shell.h"
+#include "executable.h"
 
 namespace wish {
 
@@ -81,8 +82,11 @@ Command* ExternalCommand::getCommand(const ShellArgument& args) {
 }
 
 int ExternalCommand::exec(const ShellArgument& args) {
-    std::cout << "invoked executable " << args.cmd() << std::endl;
-    return 0;
+    using namespace Executable;
+    string exename = ExecutableFinder::instance().full_path(args[0]);
+    if (exename.empty()) exename = args[0];
+
+    return Execute::execute(exename, args);
 }
 
 
