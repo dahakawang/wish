@@ -42,7 +42,7 @@ public:
 
 class Environment {
 public:
-    static Environment& instance() { return _instance; }
+    static Environment& instance();
     void set(const std::string& name, const value_t& value, bool exported = false);
     void erase(const std::string& name);
     value_t get(const std::string& name) const;
@@ -62,6 +62,5 @@ private:
     std::unordered_map<std::string, value_t> _global_envs;
     std::unordered_map<std::string, value_t> _envs;
     std::vector<std::unique_ptr<EnvObserver>> _observers;
-    static Environment _instance;
 };
 } /* wish  */ 

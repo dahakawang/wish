@@ -35,7 +35,16 @@ namespace wish {
 using std::string;
 using std::vector;
 
-Environment Environment::_instance;
+/* static */
+Environment& Environment::instance() {
+    static Environment _instance;
+
+    return _instance;
+}
+
+namespace {
+Environment& _instance = Environment::instance();
+}
 
 Environment::Environment() {
     size_t length = count_environ(environ);
