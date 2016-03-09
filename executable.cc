@@ -29,6 +29,8 @@
 #include <dirent.h>
 #include <cstring>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <wait.h>
 
 #include "executable.h"
 #include "environment.h"
@@ -51,8 +53,8 @@ void PathVariableObserver::on_assign(const std::string& name, const value_t& old
 }
 
 
-inline void error(const string& str) {
-    if (Environment::instance().get("WDEBUG") != "y") return;
+inline void error(const string& str, bool mandatory = false) {
+    if (!mandatory && Environment::instance().get("WDEBUG") != "y") return;
     char buffer[1024];
     std::cerr << str << " ("<< strerror_r(errno, buffer, sizeof(buffer)) << ")" << std::endl;
 }
@@ -151,6 +153,33 @@ string ExecutableFinder::operator[](const std::string& cmd) {
 
 namespace {
 ExecutableFinder& _p = ExecutableFinder::instance();
+}
+
+
+/* static */
+int Execute::execute(const string& cmd, const ShellArgument& args) {
+    pid_t pid = fork();
+    if (pid > 0) {
+        int status;
+        if (waitpid(pid, &status, 0) < 0) {
+            error("error wait for process", true);
+            return -1;
+        }
+        return WEXITSTATUS(status);
+
+    } else if (pid == 0) {
+        char* env[] = {nullptr};
+        auto arg_list = args.make_execve();
+        if (execve(cmd.c_str(), const_cast<char* const*>(arg_list.data()), env) < 0) {
+            error("failed to exec ");
+            return -1;
+        }
+
+        assert(false); // never reached
+    } else { //pid < 0
+        error("failed to fork ", true);
+        return -1;
+    }
 }
 
 } /* Executable */ 

@@ -29,6 +29,7 @@
 #include <unordered_map>
 
 #include "environment.h"
+#include "shell_argument.h"
 
 namespace wish {
 namespace Executable {
@@ -72,6 +73,12 @@ private:
     void find_executable(const std::string& dir);
     void merge();
     void setup();
+};
+
+
+class Execute {
+public:
+    static int execute(const std::string& cmd, const ShellArgument& args);
 };
 
 } /* Executable */ 
