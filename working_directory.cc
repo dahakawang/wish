@@ -114,6 +114,6 @@ int LSCommand::exec(const ShellArgument& args) {
 
     return 0;
 }
-DECLARE_COMMAND("ls", LSCommand);
+//DECLARE_COMMAND("ls", LSCommand);
 
 } /* wish */ 
