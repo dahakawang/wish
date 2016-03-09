@@ -173,8 +173,8 @@ int Execute::execute(const string& cmd, const ShellArgument& args) {
 
         auto arg_list = args.make_execve();
         if (execve(cmd.c_str(), const_cast<char* const*>(arg_list.data()), const_cast<char* const*>(env_list.data())) < 0) {
-            error("failed to exec ");
-            return -1;
+            error("failed to execute ", true);
+            exit(-1);
         }
 
         assert(false); // never reached
