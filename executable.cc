@@ -168,9 +168,11 @@ int Execute::execute(const string& cmd, const ShellArgument& args) {
         return WEXITSTATUS(status);
 
     } else if (pid == 0) {
-        char* env[] = {nullptr};
+        vector<string> env_holder, arg_holder;
+        auto env_list = Environment::instance().make_envp(env_holder);
+
         auto arg_list = args.make_execve();
-        if (execve(cmd.c_str(), const_cast<char* const*>(arg_list.data()), env) < 0) {
+        if (execve(cmd.c_str(), const_cast<char* const*>(arg_list.data()), const_cast<char* const*>(env_list.data())) < 0) {
             error("failed to exec ");
             return -1;
         }
