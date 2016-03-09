@@ -26,6 +26,7 @@
 #include "environment.h"
 #include "path.h"
 
+#include <unistd.h>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <iostream>
@@ -37,7 +38,14 @@ namespace wish {
 using std::string;
 
 int PWDCommand::exec(const ShellArgument& args) {
-    std::cout << Environment::instance().get("PWD") << std::endl;
+    char* buffer = getcwd(nullptr, 0);
+    if (buffer == nullptr) {
+        perror(nullptr);
+        return -1;
+    }
+
+    std::cout << buffer << std::endl;
+    free(buffer);
     return 0;
 }
 DECLARE_COMMAND("pwd", PWDCommand);
@@ -63,18 +71,10 @@ int CDCommand::exec(const ShellArgument& args) {
         string cwd = Environment::instance().get("PWD");
         string dir_name = Path(cwd, target).str();
 
-        struct stat status;
-        int code = stat(dir_name.c_str(), &status);
-        if (code < 0) {
+        if (chdir(dir_name.c_str()) < 0) {
             perror(nullptr);
             return -1;
         }
-
-        if (!S_ISDIR(status.st_mode)) {
-            std::cerr << "not a directory" << std::endl;
-            return -1;
-        }
-
 
         Environment::instance().set("PWD", dir_name);
         return 0;

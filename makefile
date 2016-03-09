@@ -1,6 +1,5 @@
 SRC=$(wildcard *.cc)
 OBJ=$(SRC:%.cc=%.o)
-CXX=g++-4.8
 
 CPPFLAGS	=	-std=c++0x -g
 
@@ -15,4 +14,4 @@ $(OBJ): %.o : %.cc
 
 clean:
 	-rm *.o
-	-rm wsh
+	-rm wish

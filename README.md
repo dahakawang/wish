@@ -3,7 +3,8 @@
 below is a list of builtin commands that are to be implemented:
 
 - [x] exit
-- [ ] cd
+- [x] cd
+- [x] ls
 - [ ] alias
 - [ ] bg
 - [ ] echo
@@ -16,6 +17,6 @@ below is a list of builtin commands that are to be implemented:
 - [ ] printf
 - [ ] pushd
 - [ ] popd
-- [ ] pwd
+- [x] pwd
 - [ ] type
 - [ ] unalias
