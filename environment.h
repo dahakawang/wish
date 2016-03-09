@@ -49,7 +49,7 @@ public:
     bool contain(const std::string& name);
     std::vector<std::string> list_all();
     //this transfer ownership of the observer object
-    void register_obserer(std::unique_ptr<EnvObserver>& observer);
+    void register_observer(std::unique_ptr<EnvObserver>& observer);
 
 private:
     Environment();
