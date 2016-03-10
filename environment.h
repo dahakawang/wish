@@ -44,8 +44,8 @@ class Environment {
 public:
     static Environment& instance();
     void set(const std::string& name, const value_t& value, bool exported = false);
-    void erase(const std::string& name);
     value_t get(const std::string& name) const;
+    void erase(const std::string& name);
     bool contain(const std::string& name);
     std::vector<std::string> list_all();
     std::vector<char*> make_envp(std::vector<std::string>& holder) const;
@@ -53,6 +53,11 @@ public:
     void register_observer(std::unique_ptr<EnvObserver> observer);
 
 private:
+    Environment(const Environment&) = delete;
+    Environment(const Environment&&) = delete;
+    Environment& operator=(const Environment&) = delete;
+    Environment& operator=(const Environment&&) = delete;
+
     Environment();
     size_t count_environ(char* env[]);
     void parse_envron(const std::string& line);

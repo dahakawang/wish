@@ -43,7 +43,11 @@ Environment& Environment::instance() {
 }
 
 namespace {
+
+//make sure this instance is initialized during the dynamic initialization
+//which is single threaded
 Environment& _instance = Environment::instance();
+
 }
 
 Environment::Environment() {
