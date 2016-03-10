@@ -37,6 +37,7 @@ class EnvObserver {
 public:
     virtual void on_delete(const std::string& name, const value_t& value) = 0;
     virtual void on_assign(const std::string& name, const value_t& old_value, const value_t& new_value) = 0;
+    virtual ~EnvObserver() {}
 };
 
 
