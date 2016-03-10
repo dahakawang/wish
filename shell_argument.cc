@@ -47,11 +47,15 @@ ShellArgument::ShellArgument(const string& arg_str) {
     }
 }
 
-vector<const char*> ShellArgument::make_execve() const {
-    vector<const char*> args;
+vector<char*> ShellArgument::make_argv(vector<string>& holder) const {
+    vector<char*> args;
 
     for (auto& str : _args) {
-        args.push_back(str.c_str());
+        holder.push_back(str);
+    }
+
+    for (string& str : holder) {
+        args.push_back(const_cast<char*>(str.c_str()));
     }
     args.push_back(nullptr);
 

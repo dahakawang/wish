@@ -113,8 +113,8 @@ std::vector<std::string> Environment::list_all() {
     return values;
 }
 
-vector<const char*> Environment::make_envp(vector<string>& holder) const {
-    vector<const char*> envp;
+vector<char*> Environment::make_envp(vector<string>& holder) const {
+    vector<char*> envp;
 
     holder.clear();
     for (auto& kv : _global_envs) {
@@ -122,7 +122,7 @@ vector<const char*> Environment::make_envp(vector<string>& holder) const {
     }
 
     for (string& str : holder) {
-        envp.push_back(str.c_str());
+        envp.push_back(const_cast<char*>(str.c_str()));
     }
     envp.push_back(nullptr);
 
