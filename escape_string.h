@@ -31,14 +31,24 @@ namespace wish {
 
 class EscapeString {
 public:
-    EscapeString (const std::string& str);
-    size_t size() { return _str.size();  }
+    static const size_t npos = std::string::npos;
+
+    EscapeString (const std::string& str, bool plain = false);
+    size_t size() const { return _str.size();  }
     char operator[](size_t pos) const { return _str[pos]; }
-    bool active(size_t pos) const { return _active[pos]; }
+    char& operator[](size_t pos) { return _str[pos]; }
+    bool is_active(size_t pos) const { return _active[pos]; }
+    void set_active(size_t pos, bool flag) { _active[pos] = flag; }
+    size_t find(char c, size_t pos = 0) const { return _str.find(c, pos); }
+    EscapeString substr(size_t pos, size_t count = npos) const;
+    EscapeString& append(const EscapeString& other);
+    EscapeString& operator+=(const EscapeString& other) { return append(other); }
 
 private:
     std::string _str;
     std::vector<bool> _active;
+
+    EscapeString() = default;
 
 };
 } /* wish */ 

@@ -32,7 +32,15 @@ namespace wish {
 using std::vector;
 using std::string;
 
-EscapeString::EscapeString(const string& str) {
+EscapeString::EscapeString(const string& str, bool plain) {
+    // if it's plain text, all the magic has gone (escape, special characters etc..)
+    if (plain) {
+        _str = str;
+        _active = vector<bool>(str.size(), false);
+        return;
+    }
+
+
     _str.reserve(str.size());
     _active = vector<bool>(str.size(), true);
     size_t pos = 0, found = 0;
@@ -47,6 +55,26 @@ EscapeString::EscapeString(const string& str) {
         pos = found + 2;
     }
     if (pos < str.size()) _str += str.substr(pos, str.size() - pos);
+    _active.resize(_str.size());
+}
+
+EscapeString EscapeString::substr(size_t pos, size_t count) const {
+    EscapeString ret;
+
+    ret._str = _str.substr(pos, count);
+    ret._active = vector<bool>(_active.begin() + pos, _active.begin() + pos + ret._str.size());
+
+    return ret;
+}
+
+EscapeString& EscapeString::append(const EscapeString& other) {
+    _str.reserve(_str.size() + other.size());
+    _active.reserve(_str.size() + other.size());
+
+    _str += other._str;
+    std::copy(other._active.begin(), other._active.end(), back_inserter(_active));
+
+    return *this;
 }
 
 } /* wish */ 
