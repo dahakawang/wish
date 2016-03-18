@@ -28,6 +28,8 @@
 #include "shell.h"
 #include "shell_argument.h"
 #include "command.h"
+#include "escape_string.h"
+#include "variable_evaluator.h"
 
 
 namespace wish {
@@ -39,12 +41,16 @@ int Shell::run() {
     using std::cin;
 
     while (cin && !_exit) {
-        string cmd;
+        string line;
         cout << "wish-1.0$ ";
-        getline(cin, cmd);
-        if (cmd.empty()) continue;
+        getline(cin, line);
 
-        ShellArgument args(cmd);
+        EscapeString escaped(line);
+        VariableEvaluator evaluator(Environment::instance());
+        EscapeString cmd = evaluator.evaluate(escaped);
+
+        ShellArgument args(cmd.str());
+        if (args.empty()) continue;
         Command::execute(args);
     }
 
