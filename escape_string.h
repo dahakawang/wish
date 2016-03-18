@@ -33,22 +33,27 @@ class EscapeString {
 public:
     static const size_t npos = std::string::npos;
 
-    EscapeString (const std::string& str, bool plain = false);
+    explicit EscapeString (const std::string& str, bool plain = false);
+    EscapeString() = default;
     size_t size() const { return _str.size();  }
     char operator[](size_t pos) const { return _str[pos]; }
     char& operator[](size_t pos) { return _str[pos]; }
     bool is_active(size_t pos) const { return _active[pos]; }
     void set_active(size_t pos, bool flag) { _active[pos] = flag; }
     size_t find(char c, size_t pos = 0) const { return _str.find(c, pos); }
+    size_t find_first_not_of(const char* charset, size_t pos = 0) const { return _str.find_first_not_of(charset, pos); }
+    size_t find_first_not_of(const std::string& charset, size_t pos = 0) const { return _str.find_first_not_of(charset, pos); }
+    size_t find_first_of(const char* charset, size_t pos = 0) const { return _str.find_first_of(charset, pos); }
+    size_t find_first_of(const std::string& charset, size_t pos = 0) const { return _str.find_first_of(charset, pos); }
     EscapeString substr(size_t pos, size_t count = npos) const;
     EscapeString& append(const EscapeString& other);
     EscapeString& operator+=(const EscapeString& other) { return append(other); }
+    std::string str() { return _str;  }
 
 private:
     std::string _str;
     std::vector<bool> _active;
 
-    EscapeString() = default;
 
 };
 } /* wish */ 
