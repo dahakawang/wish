@@ -35,7 +35,7 @@ EscapeString VariableEvaluator::evaluate(const EscapeString& str) const {
     size_t pos = 0, found = 0;
 
     while( (found = str.find('$', pos)) != EscapeString::npos ) {
-        if (!str.is_active(pos)) { 
+        if (!str.is_active(found)) { 
             expanded += str.substr(pos, found + 1 - pos);
             pos = found + 1; 
             continue; 
