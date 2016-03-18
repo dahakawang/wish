@@ -38,6 +38,7 @@ public:
     const std::string& operator[](size_t pos) const { return _args[pos]; }
     const std::string& at(size_t pos) const { return _args.at(pos); }
     size_t size() const { return _args.size();  }
+    bool empty() const { return _args.empty();  }
     std::vector<char*> make_argv(std::vector<std::string>& holder) const;
 
 private:
