@@ -24,20 +24,24 @@
 
 #pragma once
 
-#include <string>
-
+#include "escape_string.h"
 #include "environment.h"
 
 namespace wish {
 
 class VariableEvaluator {
 public:
+    static constexpr const char* VALID_VARNAME_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+
     VariableEvaluator (Environment& env) : _env(env) {}
-    std::string evaluate(const string& str) const;
+    EscapeString evaluate(const EscapeString& str) const;
 
 private:
     Environment& _env;
 
+    bool parse(const EscapeString& str, size_t pos, EscapeString& target, size_t& next) const;
+    bool parse_with_brace(const EscapeString& str, size_t pos, EscapeString& target, size_t& next) const;
+    bool parse_no_brace(const EscapeString& str, size_t pos, EscapeString& target, size_t& next) const;
 
 };
 } /* wish */ 
