@@ -39,6 +39,10 @@ using std::unordered_map;
 
 /* static */ 
 int Command::execute(const ShellArgument& args) {
+    if (args.empty()) {
+        std::cerr << "invalid command" << std::endl;
+        return 1;
+    }
     Command* cmd = getCommand(args);
 
     return cmd->exec(args);
