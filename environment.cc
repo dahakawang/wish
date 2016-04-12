@@ -29,7 +29,7 @@
 #include <cassert>
 
 #include "environment.h"
-
+extern char **environ;
 namespace wish {
 
 using std::string;

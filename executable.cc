@@ -30,7 +30,7 @@
 #include <cstring>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <wait.h>
+#include <sys/wait.h>
 
 #include "executable.h"
 #include "environment.h"
