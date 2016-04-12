@@ -18,5 +18,5 @@ below is a list of builtin commands that are to be implemented:
 - [ ] pushd
 - [ ] popd
 - [x] pwd
-- [ ] type
+- [x] type
 - [ ] unalias
