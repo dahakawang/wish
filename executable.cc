@@ -171,8 +171,8 @@ int Execute::execute(const string& cmd, const ShellArgument& args) {
         vector<string> env_holder, arg_holder;
         auto env_list = Environment::instance().make_envp(env_holder);
 
-        auto arg_list = args.make_execve();
-        if (execve(cmd.c_str(), const_cast<char* const*>(arg_list.data()), const_cast<char* const*>(env_list.data())) < 0) {
+        auto arg_list = args.make_argv(arg_holder);
+        if (execve(cmd.c_str(), arg_list.data(), env_list.data()) < 0) {
             error("failed to execute ", true);
             exit(-1);
         }

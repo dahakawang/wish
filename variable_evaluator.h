@@ -22,43 +22,26 @@
  *    SOFTWARE.
  */
 
-#include <algorithm>
-#include <string>
-#include <sstream>
+#pragma once
 
-#include "shell_argument.h"
+#include "escape_string.h"
+#include "environment.h"
 
 namespace wish {
 
-using std::string;
-using std::stringstream;
-using std::vector;
+class VariableEvaluator {
+public:
+    static constexpr const char* VALID_VARNAME_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
-ShellArgument::ShellArgument(int argc, char* argv[]) {
-    std::copy(argv, argv + argc, back_inserter(_args));
-}
+    VariableEvaluator (Environment& env) : _env(env) {}
+    EscapeString evaluate(const EscapeString& str) const;
 
-ShellArgument::ShellArgument(const string& arg_str) {
-    stringstream stream(arg_str);
-    string arg_elem;
+private:
+    Environment& _env;
 
-    while(stream >> arg_elem) {
-        _args.push_back(arg_elem);
-    }
-}
+    bool parse(const EscapeString& str, size_t pos, EscapeString& target, size_t& next) const;
+    bool parse_with_brace(const EscapeString& str, size_t pos, EscapeString& target, size_t& next) const;
+    bool parse_no_brace(const EscapeString& str, size_t pos, EscapeString& target, size_t& next) const;
 
-vector<char*> ShellArgument::make_argv(vector<string>& holder) const {
-    vector<char*> args;
-
-    for (auto& str : _args) {
-        holder.push_back(str);
-    }
-
-    for (string& str : holder) {
-        args.push_back(const_cast<char*>(str.c_str()));
-    }
-    args.push_back(nullptr);
-
-    return args;
-}
+};
 } /* wish */ 
