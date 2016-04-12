@@ -1,4 +1,4 @@
-# WISH - A shell
+# WISH - A shell by David
 
 below is a list of builtin commands that are to be implemented:
 
