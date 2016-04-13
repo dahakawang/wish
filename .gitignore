@@ -4,6 +4,7 @@ wish
 *.swp
 .syntastic_cpp_config
 *.dSYM
+*.d
 
 =======
 # Compiled Object files
