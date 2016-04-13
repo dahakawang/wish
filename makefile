@@ -15,3 +15,11 @@ $(OBJ): %.o : %.cc
 clean:
 	-rm *.o
 	-rm wish
+
+%.d: %.cc
+	@set -e; rm -f $@; \
+	 $(CC) -MM $(CPPFLAGS) $< > $@.$$$$; \
+	 sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	 rm -f $@.$$$$
+
+include $(SRC:.cc=.d)
